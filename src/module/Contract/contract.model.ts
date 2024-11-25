@@ -1,6 +1,7 @@
 
 import { Schema, Types, model } from "mongoose";
 import { TContract } from "./contract.interface";
+
 // Define the TSales schema
 const TContractSchema = new Schema({
     name: {
