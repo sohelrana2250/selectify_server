@@ -68,6 +68,14 @@ const TUserSchema = new Schema({
     timestamps:true
 });
 
+TUserSchema.set('toJSON', {
+    virtuals: true,
+    transform: function (doc, ret) {
+      delete ret.password;
+      return ret;
+    },
+  });
+
 
 // midlewere 
 TUserSchema .pre('find',function(next){
