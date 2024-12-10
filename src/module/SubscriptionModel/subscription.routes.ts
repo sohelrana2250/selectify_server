@@ -9,8 +9,10 @@ import { USER_ROLE } from '../User/user.constant';
 
 const router= express.Router();
 
-router.post('/create_subscriptionmodel', auth(USER_ROLE.EMPLOYEE,USER_ROLE.ADMIN), validationRequest(SubScriptionValidation.SubscriptionValidationSchema),SubscriptionController.CreateSubScriptionModel);
+router.post('/create_subscriptionmodel', auth(USER_ROLE.ADMIN), validationRequest(SubScriptionValidation.SubscriptionValidationSchema),SubscriptionController.CreateSubScriptionModel);
 router.get("/find_all_home_subscriptionmodal",SubscriptionController.FindHomePageSubscriptionModel);
 router.get("/find_all_subscriptionmodal",SubscriptionController.FindAllSubscriptionModel);
 router.get("/find_specific_subscription/:id",SubscriptionController.FindSpecificSubscriptionModel);
+router.patch("/update_subscriptionmodel/:id",auth(USER_ROLE.ADMIN),validationRequest(SubScriptionValidation.UpdateSubscriptionValidationSchema),SubscriptionController.UpdateSubscriptionModel);
+router.delete("/delete_subscription_model/:id",auth(USER_ROLE.ADMIN),SubscriptionController.DeleteSubScriptionModel);
 export const SubscriptionRouter=router;
