@@ -7,7 +7,8 @@ import httpStatus from "http-status";
 
 const PaymentGetWay:RequestHandler=catchAsync(async(req,res)=>{
 
-    const result=await PaymentServices.PaymentGetWayFromDb(req.body);
+    const {id}=req.user;
+    const result=await PaymentServices.PaymentGetWayFromDb(req.body,id);
     sendRespone(res,{success:true,statusCode:httpStatus.OK,message:"Successfully Done Your Payment",data:result});
 
 });
