@@ -1,13 +1,19 @@
 import { model, Schema } from 'mongoose';
 import { PaymentModal, TPayment } from './payment.interface';
-import { string } from 'zod';
+
 
 const TPaymentSchema = new Schema<TPayment, PaymentModal>(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      required: [true, 'Subscription Model Id is Required'],
+      required: [true, 'User Id is Required'],
       ref: 'users',
+    },
+    companyApplyId:{
+  
+      type: Schema.Types.ObjectId,
+      required: [true, 'Company Apply Id is Required'],
+      ref: 'subscriptionmodels',
     },
     name: { type: String, required: [true, 'name is required'] },
     email: { type: String, required: [true, 'email is required'] },
@@ -18,6 +24,10 @@ const TPaymentSchema = new Schema<TPayment, PaymentModal>(
       required: [true, 'contract number is required'],
     },
     transactionId: { type: String, required: true },
+    payment: {
+      type: Boolean,
+      default:false
+    },
     isDeleted: { type: Boolean, default: false },
   },
   {

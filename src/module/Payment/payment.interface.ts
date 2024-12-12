@@ -6,12 +6,14 @@ import { Model, Types } from "mongoose";
 export type TPayment={
 
     userId?:Types.ObjectId;
+    companyApplyId:Types.ObjectId;
     name:string;
     email:string;
     address:string;
     amount:number;
     contractNumber:string;
     transactionId?:string;
+    payment?:boolean;
     isDeleted?:boolean;
 
 }
