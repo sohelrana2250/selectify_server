@@ -21,7 +21,7 @@ const FindHomePageSubscriptionModelFromDb = async () => {
         price: 1,
         subscriptionname: 1,
         servicesdate: 1,
-        _id: 0,
+        _id: 1,
       },
     );
     return result;
