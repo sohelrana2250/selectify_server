@@ -61,7 +61,7 @@ const CreateCompanyApplyIntoDb = async (
       config.expries_in_token as string,
     );
 
-    const companyVarificationLink = `${config.frontend_url}?id=${jwtPayload.id}&token=${companyVarificationToken}`;
+    const companyVarificationLink = `${config.frontend_url}/companyvarification?id=${jwtPayload.id}&token=${companyVarificationToken}`;
     await sendEmail(jwtPayload?.email, companyVarificationLink);
 
     await session.commitTransaction();
