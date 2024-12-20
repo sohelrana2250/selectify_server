@@ -3,7 +3,8 @@ import { Model, Types } from "mongoose";
 
 export type TCompanyApply={
 
-    subscriptionmodelId:Types.ObjectId
+    subscriptionmodelId:Types.ObjectId;
+    userId:Types.ObjectId;
     companyname:string;
     country:string;
     address:string;

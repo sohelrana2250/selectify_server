@@ -12,6 +12,7 @@ import { sendEmail } from '../../utility/sendEmail';
 const CreateCompanyApplyIntoDb = async (
   payload: TCompanyApply,
   role: string,
+  userId: string,
 ) => {
   const session = await companyapplys.startSession();
   session.startTransaction();
@@ -46,7 +47,12 @@ const CreateCompanyApplyIntoDb = async (
       );
     }
 
-    const companyApplyBuilder = new companyapplys(payload);
+    const { userId: payloadUserId, ...filteredPayload } = payload;
+
+    const companyApplyBuilder = new companyapplys({
+      userId,
+      ...filteredPayload,
+    });
     const result = await companyApplyBuilder.save({ session });
 
     const jwtPayload = {
@@ -54,7 +60,7 @@ const CreateCompanyApplyIntoDb = async (
       role,
       email: payload.email,
     };
-    
+
     const companyVarificationToken = jwtHalpers.generateToken(
       jwtPayload,
       config.jwt_access_srcret as string,
@@ -87,30 +93,33 @@ const CreateCompanyApplyIntoDb = async (
   }
 };
 
-const  isVarificationCompanyFromDb=async(companyApplyId:string)=>{
-
-    const isExistComapyApply=await companyapplys.isCompanyApplyExist(companyApplyId);
-     if(!isExistComapyApply){
-      throw new AppError(
-        httpStatus.NOT_FOUND,
-        'Comapy Apply Information Not Exist',
-        '',
-      );
-     }
-    const result=await companyapplys.findByIdAndUpdate(companyApplyId,{isVerified:true},{new:true,upsert:true});
-    if(!result){
-      throw new AppError(
-        httpStatus.BAD_GATEWAY,
-        'Issues By the Company Validation ',
-        '',
-      );
-    }
-    else{
-       return{
-         message:" Successfully Varified Company"
-       }
-    }
+const isVarificationCompanyFromDb = async (companyApplyId: string) => {
+  const isExistComapyApply =
+    await companyapplys.isCompanyApplyExist(companyApplyId);
+  if (!isExistComapyApply) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Comapy Apply Information Not Exist',
+      '',
+    );
   }
+  const result = await companyapplys.findByIdAndUpdate(
+    companyApplyId,
+    { isVerified: true },
+    { new: true, upsert: true },
+  );
+  if (!result) {
+    throw new AppError(
+      httpStatus.BAD_GATEWAY,
+      'Issues By the Company Validation ',
+      '',
+    );
+  } else {
+    return {
+      message: ' Successfully Varified Company',
+    };
+  }
+};
 
 const FindAllApplyCompanyFromDb = async (query: Record<string, unknown>) => {
   try {
@@ -153,10 +162,10 @@ const FindSpecificCompanyApplyListFromDb = async (id: string) => {
   }
 };
 
-const FindSpecifiUserSubScriptionApplyFromDb = async (email: string) => {
+const FindSpecifiUserSubScriptionApplyFromDb = async (userId: string) => {
   try {
     const result = await companyapplys
-      .findOne({ email })
+      .find({ $and: [{ userId, isVerified: true }] })
       .populate('subscriptionmodelId');
     return result;
   } catch (error) {
@@ -167,7 +176,6 @@ const FindSpecifiUserSubScriptionApplyFromDb = async (email: string) => {
     );
   }
 };
-
 
 const UpdateCompanyApplyFromDb = async (id: string, payload: TCompanyApply) => {
   const isExistApplyCompany = await companyapplys.isCompanyApplyExist(id);

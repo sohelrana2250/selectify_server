@@ -5,11 +5,18 @@ import { CompanyApplyModel, TCompanyApply } from "./companyapply.interface";
 const TCompanyApplySchema = new Schema<TCompanyApply,CompanyApplyModel>(
     {
       subscriptionmodelId: {type:Schema.Types.ObjectId,required:[true,'Subscription Model Id is Required'],ref:'subscriptionmodels'},
+      userId:{
+        type:Schema.Types.ObjectId,
+        required:[true,'UserId  is Required'],
+        ref:'users'
+      },
+     
       companyname: {
         type: String,
         required: true,
         trim: true,
       },
+      
       country: {
         type: String,
         required: true,

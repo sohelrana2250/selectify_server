@@ -8,10 +8,8 @@ import sendRespone from "../../utility/sendRespone";
 
 const CreateCompanyApply:RequestHandler=catchAsync(async(req,res)=>{
 
-    const result=await CompanyApplyServices.CreateCompanyApplyIntoDb(req.body, req.user.role);
+    const result=await CompanyApplyServices.CreateCompanyApplyIntoDb(req.body, req.user.role,req.user.id);
     sendRespone(res,{success:true,statusCode:httpStatus.CREATED,message:"Successfully Recorded",data:result});
-
-
 });
 
 const isVarificationCompany:RequestHandler=catchAsync(async(req,res)=>{
@@ -44,12 +42,14 @@ const DeleteCompanyApply:RequestHandler=catchAsync(async(req,res)=>{
     sendRespone(res,{success:true,statusCode:httpStatus.OK,message:"Successfully Delete",data:result});
 });
 
+
+
 const FindSpecifiUserSubScriptionApply:RequestHandler=catchAsync(async(req,res)=>{
 
-    const {email}=req.user;
-    const result=await CompanyApplyServices.FindSpecifiUserSubScriptionApplyFromDb(email);
+    const {id}=req.user;
+    const result=await CompanyApplyServices.FindSpecifiUserSubScriptionApplyFromDb(id);
     sendRespone(res,{success:true,statusCode:httpStatus.OK,message:"Successfully Find",data:result});
-})
+});
 
 
 export const CompanyApplyController={
