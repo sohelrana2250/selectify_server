@@ -10,6 +10,7 @@ import { CompanyApplyController } from './companyapply.controller';
 const router= express.Router();
 
 router.post('/create_companyapply', auth(USER_ROLE.USER), validationRequest(CompanyApplyValidation.TCompanyApplyValidationSchema),CompanyApplyController.CreateCompanyApply);
+router.get("/companyapply_varified/:companyApplyId", auth(USER_ROLE.USER), CompanyApplyController.isVarificationCompany);
 router.get("/find_all_applycompanyList",auth(USER_ROLE.ADMIN,USER_ROLE.EMPLOYEE),CompanyApplyController.FindAllApplyCompany);
 router.get("/find_specific_companylist/:id",auth(USER_ROLE.ADMIN),CompanyApplyController.FindSpecificCompanyApplyList);
 router.get("/my_subscription_company",auth(USER_ROLE.USER),CompanyApplyController.FindSpecifiUserSubScriptionApply)

@@ -39,6 +39,11 @@ const TCompanyApplySchema = new Schema<TCompanyApply,CompanyApplyModel>(
         trim: true,
         default:false
       },
+      isVerified:{
+        type: Boolean,
+        required:false,
+        default:false
+      },
       isDeleted: {
         type: Boolean,
         default: false,

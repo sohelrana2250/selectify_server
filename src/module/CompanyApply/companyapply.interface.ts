@@ -10,6 +10,7 @@ export type TCompanyApply={
     email:string
     phonenumber:string;
     payment:boolean;
+    isVerified:boolean;
     isDeleted?:boolean;
 
 }
